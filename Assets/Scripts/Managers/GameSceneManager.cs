@@ -6,7 +6,19 @@ using UnityEngine;
 
 public class GameSceneManager : MonoBehaviour
 {
+    public enum SceneName
+    {
+        Error,
+        CampScene,
+        ExploreScene,
+        StoryScene,
+
+    }
     public bool IsExploreSceneLoaded = false;
+    public bool IsSceneLoaded = false;
+
+    public SceneName NowSceneName;
+
     private static GameSceneManager instance;
     public static GameSceneManager Instance
     {
@@ -31,20 +43,54 @@ public class GameSceneManager : MonoBehaviour
         if(IsExploreSceneLoaded == true)
         {
             // ExploreScene이 로드된 적이 있다면 맵생성을 하지 않고 Json파일을 가져오기
-            SceneManager.LoadScene("ExploreScene");
+            SceneManager.LoadScene(SceneName.ExploreScene.ToString());
             ExploreMapManager.Instance.RoomDataImport();
         }
         else
         {
             // Scene 전환
-            SceneManager.LoadScene("ExploreScene");
+            SceneManager.LoadScene(SceneName.ExploreScene.ToString());
         }
+        IsSceneLoaded = true;
     }
     public void ChangeToCampScene()
     {
         IsExploreSceneLoaded = true;
         ExploreMapManager.Instance.RoomDataExport();
-        SceneManager.LoadScene("CampScene");
+        SceneManager.LoadScene(SceneName.CampScene.ToString());
+        IsSceneLoaded = true;
+    }
+    public void SceneMove(string _name)
+    {
+        SceneManager.LoadScene(_name);
+        IsSceneLoaded = true;
+    }
+    private void GetSceneName()
+    {
+        string strSceneName = SceneManager.GetActiveScene().name;
+        switch(strSceneName)
+        {
+            case "CampScene":
+                NowSceneName = SceneName.CampScene;
+                break;
+            case "ExploreScene":
+                NowSceneName = SceneName.ExploreScene;
+                break;
+            case "StoryScene":
+                NowSceneName = SceneName.StoryScene;
+                break;
+            default:
+                NowSceneName = SceneName.Error;
+                break;
+        }
+    }
+    private void LateUpdate()
+    {
+        IsSceneLoaded = false;
+    }
+    private void Update()
+    {
+        GetSceneName();
     }
     /*
         JsonConvert.SerializeObject();
@@ -59,8 +105,4 @@ public class GameSceneManager : MonoBehaviour
         RoomNum에 대한 정보도 Json으로 뺐다가 다시 씬 불러올 때 적용하는 방식으로 할 수 있음
         아마 씬 매니저 하나 만들어서 사용하면 될 듯 함
      */
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
 }

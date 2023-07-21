@@ -53,6 +53,16 @@ public class ManufactManager : MonoBehaviour
     private TMP_Text successRateValue;
     private void manufactSetting()
     {
+        // 현재씬이 캠프씬이 아닐경우 return
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
+        // 다시 컴포넌트 찾기
+        ManufactUi = GameObject.Find("ManufactUI");
+        bluePrint = ManufactUi.transform.Find("Content").gameObject;
+        successRateValue = ManufactUi.transform.Find("SuccessRateValue").GetComponent<TMP_Text>();
+
+        materialItemImage.Clear();
+        materialAmount.Clear();
+
         // 재료 Ui의 수만큼 재료 이미지 컴포넌트와 텍스트 컴포넌트를 받아오는 코드
         int materialUiCount = materialUi.Count;
         for (int i = 0; i < materialUiCount; i++)
@@ -83,6 +93,7 @@ public class ManufactManager : MonoBehaviour
             });
             _bluePrintText.text = ManufactItem[i].ItemName;
         }
+        ManufactUi.SetActive(false);
     }
     private void refreshManufactData()
     {
@@ -129,11 +140,6 @@ public class ManufactManager : MonoBehaviour
     private void successRateCaculate()
     {
         //추후 성공 확률에 대한 계산
-    }
-    private void Awake()
-    {
-        manufactSetting();
-        ManufactUi.SetActive(false);
     }
     private void Update()
     {

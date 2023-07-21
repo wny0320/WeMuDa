@@ -47,20 +47,10 @@ public class InventoryManager : MonoBehaviour
     GraphicRaycaster graphicRaycaster;
     PointerEventData pointerEvent;
 
-    void Awake()
-    {
-        FreshSlot();
-        itemInfo.SetActive(false);
-        graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
-        pointerEvent = new PointerEventData(null);
-    }
-    private void Update()
-    {
-        ItemDetail();
-    }
     public void ItemDetail()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
+        if (Input.GetMouseButtonDown(0))
         {
             pointerEvent.position = Input.mousePosition;
             List<RaycastResult> results = new List<RaycastResult>();
@@ -171,5 +161,16 @@ public class InventoryManager : MonoBehaviour
         }
         Items.Remove(_item);
         FreshSlot();
+    }
+    private void Awake()
+    {
+        FreshSlot();
+        itemInfo.SetActive(false);
+        graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
+        pointerEvent = new PointerEventData(null);
+    }
+    private void Update()
+    {
+        ItemDetail();
     }
 }

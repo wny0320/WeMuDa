@@ -31,10 +31,6 @@ public class MinerManager : MonoBehaviour
     {
         LastNameList = new string[] {"±è","ÀÌ","¹Ú","°­","³²±Ã","°û","°í","±â","´ë","µ¶","·ù","ÀÓ","¼±","¼³","Ã¢","Àå","ÇÔ","Àü","¹é","À±","Çã"};
         FirstNameList = new string[] {"¼ºÈÆ","¼öºó","¹ÎÈ£","ÇıÁø","¹Î¿í","°­¹Î","»ó¹Î","Ã¶¼ö","¹ÎÀç","Ã¢¹Î","¹Î»ó","Áø¿ì","³ª¿µ","Á¤¿¬","Áö¿õ","Á¾Çõ","ÀåÇõ","ÈÆ", "¹Î"};
-        InsantiateMiner();
-        InsantiateMiner();
-        InsantiateMiner();
-        InsantiateMiner();
     }
     Sprite RandomSprite()
     {
