@@ -1,7 +1,0 @@
-SerializableDictionary
-====================
-
-Collections
----------------------
-
-* `SerializableDictionary`
