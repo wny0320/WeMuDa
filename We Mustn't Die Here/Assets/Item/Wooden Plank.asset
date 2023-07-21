@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e4e89c951f3c843839c8933c12c670, type: 3}
+  m_Name: Wooden Plank
+  m_EditorClassIdentifier: 
+  ItemName: "\uB098\uBB34 \uD310\uC790"
+  ItemSprite: {fileID: 21300000, guid: cfa41098889234259a66e51bf36bca96, type: 3}
+  ItemExplain: "\uB098\uBB34\uB97C \uAC00\uACF5\uD574\uC11C \uB9CC\uB4E0 \uB098\uBB34\uD310\uC790\uC774\uB2E4."
+  MaterialItems:
+    array:
+    - Key: {fileID: 11400000, guid: dcc4faa4c6f081b4ab5703f83f8fad3e, type: 2}
+      Value: 2

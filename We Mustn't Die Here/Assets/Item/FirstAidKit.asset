@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e4e89c951f3c843839c8933c12c670, type: 3}
+  m_Name: FirstAidKit
+  m_EditorClassIdentifier: 
+  ItemName: "\uAD6C\uAE09\uC0C1\uC790"
+  ItemSprite: {fileID: 21300000, guid: 957c235c060fa49e0bccd88eedd5908f, type: 3}
+  ItemExplain: "\uC0C1\uCC98\uB97C \uCE58\uB8CC\uD560 \uC218 \uC788\uB294 \uAD6C\uAE09\uC0C1\uC790\uB2E4."
+  MaterialItems:
+    array: []
