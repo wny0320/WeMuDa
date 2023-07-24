@@ -393,19 +393,11 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3218897464440747459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29c89de694a2b8a408acf9e179dec50f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slotParent: {fileID: 0}
-  slots: []
-  clickItem: {fileID: 0}
-  itemInfo: {fileID: 0}
-  itemInfoName: {fileID: 0}
-  itemInfoImage: {fileID: 0}
-  itemInfoDetail: {fileID: 0}
-  canvas: {fileID: 0}
 --- !u!114 &2629358947091296775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +445,7 @@ GameObject:
   - component: {fileID: 2629358947091296775}
   - component: {fileID: 7007157436154160111}
   - component: {fileID: 3639196893289774160}
+  - component: {fileID: 9153690698612192034}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -467,19 +460,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3218897464440747459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 94268d151b89304469cb389a4d27752a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FoodText: {fileID: 0}
-  WaterText: {fileID: 0}
-  PersonText: {fileID: 0}
-  TurnText: {fileID: 0}
-  FOOD: 0
-  WATER: 0
-  PERSON: 0
-  TURN: 0
+  Food: 0
+  Water: 0
+  Person: 0
+  Turn: 0
 --- !u!114 &7007157436154160111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,7 +490,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3218897464440747459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 477940eadb7828343b9989825240dd46, type: 3}
   m_Name: 
@@ -668,20 +657,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3218897464440747459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b31ec60131d106e4b91a7f0d2ae46d6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ManufactUi: {fileID: 0}
   ManufactItem: []
-  manufactItemImage: {fileID: 0}
-  manufactItemPrefab: {fileID: 0}
-  bluePrint: {fileID: 0}
-  materialUi: []
-  materialItemImage: []
-  materialAmount: []
-  successRateValue: {fileID: 0}
 --- !u!4 &9153690698612192033
 Transform:
   m_ObjectHideFlags: 0
@@ -697,3 +679,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9153690698612192034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3218897464440747459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e9c3c226bf1c4e4cb3040c2b9cf66ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

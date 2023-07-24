@@ -34,34 +34,54 @@ public class ManufactManager : MonoBehaviour
     public GameObject ManufactUi;
     // 제조 가능한 아이템들의 리스트
     public List<Item> ManufactItem = new List<Item>();
-    [SerializeField] // 제조 아이템의 이미지
+    // 제조 아이템의 이미지
     private Image manufactItemImage;
-    [SerializeField] // 제조 아이템이 들어갈 프리팹
+    // 제조 아이템이 들어갈 프리팹
     private GameObject manufactItemPrefab;
-    [SerializeField] // 제조 아이템 프리팹의 부모가 될 ViewPort의 Content 부분
+    // 제조 아이템 프리팹의 부모가 될 ViewPort의 Content 부분
     private GameObject bluePrint;
-    [SerializeField] // 재료 아이템이 들어가는 게임 오브젝트의 리스트
+    // 재료 아이템이 들어가는 게임 오브젝트의 리스트
     private List<GameObject> materialUi;
     private Item item = null;
-    [SerializeField] // 재료가 최대 3개이므로 크기가 3인 리스트
+    // 재료가 최대 3개이므로 크기가 3인 리스트
     private List<Image> materialItemImage;
-    [SerializeField] // 현재 재료 아이템을 가진 수와 필요한 재료 아이템의 수의 텍스트를 지닌 리스트
+    // 현재 재료 아이템을 가진 수와 필요한 재료 아이템의 수의 텍스트를 지닌 리스트
     private List<TMP_Text> materialAmount;
     // 현재 재료 아이템 수와 필요한 재료 아이템의 수의 텍스트를 구별하는 / 텍스트를 담은 리스트
     private List<TMP_Text> materialAmountSlash = new List<TMP_Text>();
-    [SerializeField] // 현재 아이템 제작 성공 확률에 대한 텍스트
+    // 현재 아이템 제작 성공 확률에 대한 텍스트
     private TMP_Text successRateValue;
+
+    private bool isUiDataSet = false;
     private void manufactSetting()
     {
         // 현재씬이 캠프씬이 아닐경우 return
-        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene)
+        {
+            isUiDataSet = false;
+            return;
+        }
+        if (isUiDataSet == true) return;
         // 다시 컴포넌트 찾기
+        isUiDataSet = true;
         ManufactUi = GameObject.Find("ManufactUI");
-        bluePrint = ManufactUi.transform.Find("Content").gameObject;
-        successRateValue = ManufactUi.transform.Find("SuccessRateValue").GetComponent<TMP_Text>();
+        bluePrint = ManufactUi.transform.Find("ItemList").transform.Find("Viewport").Find("Content").gameObject;
+        successRateValue = ManufactUi.transform.Find("BlueprintList").Find("SuccessRate").Find("SuccessRateValue").GetComponent<TMP_Text>();
 
-        materialItemImage.Clear();
-        materialAmount.Clear();
+        materialUi = new List<GameObject>();
+        materialItemImage = new List<Image>();
+        materialAmount = new List<TMP_Text>();
+
+        Transform m_bluePrintList = ManufactUi.transform.Find("BlueprintList");
+        materialUi.Add(m_bluePrintList.Find("MaterialItem1").gameObject);
+        materialUi.Add(m_bluePrintList.Find("MaterialItem2").gameObject);
+        materialUi.Add(m_bluePrintList.Find("MaterialItem3").gameObject);
+
+        int m_materialItemCount = (int)materialKind.amount;
+        for(int i = 0; i < m_materialItemCount; i++)
+        {
+            materialItemImage.Add(null);
+        }
 
         // 재료 Ui의 수만큼 재료 이미지 컴포넌트와 텍스트 컴포넌트를 받아오는 코드
         int materialUiCount = materialUi.Count;
@@ -97,6 +117,7 @@ public class ManufactManager : MonoBehaviour
     }
     private void refreshManufactData()
     {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
         //UI가 꺼져있다면 데이터 갱신을 하지 않음
         if (ManufactUi.activeSelf == false) return;
         // 아이템이 선택되지 않았다면 첫번째 아이템으로 띄우게 됨
@@ -143,6 +164,7 @@ public class ManufactManager : MonoBehaviour
     }
     private void Update()
     {
+        manufactSetting();
         refreshManufactData();
     }
 }

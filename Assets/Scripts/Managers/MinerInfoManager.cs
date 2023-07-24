@@ -26,23 +26,33 @@ public class MinerInfoManager : MonoBehaviour
         }
     }
     public GameObject ExploreTeamOrganizeUi;
-    [SerializeField]
+    private bool isUiDataSet = false;
+
     TMP_Text minerNameText;
-    [SerializeField]
     List<TMP_Text> statTextList;
-    [SerializeField]
     List<TMP_Text> healthTextList;
-    [SerializeField]
     List<TMP_Text> perAbilityTextList;
-    [SerializeField]
     List<TMP_Text> posAbilityTextList;
-    [SerializeField]
     List<TMP_Text> negAbilityTextList;
+
     public List<Miner> ExploreMinerList = new List<Miner>();
     private int index = 0;
     
+    private void findExploreTeamOrganizeUi()
+    {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene)
+        {
+            isUiDataSet = false;
+            return;
+        }
+        if (isUiDataSet == true) return;
+        ExploreTeamOrganizeUi = GameObject.Find("ExploreTeamOrganizeBackground");
+        ExploreTeamOrganizeUi.SetActive(false);
+        isUiDataSet = true;
+    }
     public void ShowMinerInfo()
     {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
         if (ExploreTeamOrganizeUi.activeSelf == false) return;
         Miner target = MinerManager.Instance.MinerList[index];
         Stat targetStat = target.gameObject.GetComponent<Stat>();
@@ -113,12 +123,9 @@ public class MinerInfoManager : MonoBehaviour
             // 메세지 띄우기
         }
     }
-    private void Start()
-    {
-        ExploreTeamOrganizeUi.SetActive(false);
-    }
     private void Update()
     {
+        findExploreTeamOrganizeUi();
         ShowMinerInfo();
     }
 }

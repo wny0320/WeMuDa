@@ -23,31 +23,45 @@ public class ResourceUiManager : MonoBehaviour
             return instance;
         }
     }
-    [SerializeField] TMP_Text FoodText;
-    [SerializeField] TMP_Text WaterText;
-    [SerializeField] TMP_Text PersonText;
-    [SerializeField] TMP_Text TurnText;
+    TMP_Text FoodText;
+    TMP_Text PersonText;
+    TMP_Text WaterText;
+    TMP_Text TurnText;
 
-    public int FOOD;
-    public int WATER;
-    public int PERSON;
-    public int TURN;
+    public int Food;
+    public int Water;
+    public int Person;
+    public int Turn;
 
+    private bool isUiDataSet = false;
 
-    private void Update()
+    private void rsUiDataSet()
     {
-        RsSync();
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene)
+        {
+            isUiDataSet = false;
+            return;
+        }
+        if (isUiDataSet == true) return;
+        Transform m_resourceUi = GameObject.Find("ResourceUI").transform;
+        FoodText = m_resourceUi.transform.Find("FoodText").GetComponent<TMP_Text>();
+        PersonText = m_resourceUi.transform.Find("PersonText").GetComponent<TMP_Text>();
+        WaterText = m_resourceUi.transform.Find("WaterText").GetComponent<TMP_Text>();
+        TurnText = m_resourceUi.transform.Find("TurnText").GetComponent<TMP_Text>();
+        isUiDataSet = true;
     }
-    void RsSync()
-    {
-        PERSON = MinerCount();
 
-        FoodText.text = FOOD.ToString();
-        WaterText.text = WATER.ToString();
-        PersonText.text = PERSON.ToString();
-        TurnText.text = TURN.ToString();
+    private void RsSync()
+    {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
+        Person = MinerCount();
+
+        FoodText.text = Food.ToString();
+        WaterText.text = Water.ToString();
+        PersonText.text = Person.ToString();
+        TurnText.text = Turn.ToString();
     }
-    int MinerCount()
+    private int MinerCount()
     {
         int num = 0;
         foreach(Miner i in MinerManager.Instance.MinerList)
@@ -56,5 +70,10 @@ public class ResourceUiManager : MonoBehaviour
                 num++;
         }
         return num;
+    }
+    private void Update()
+    {
+        rsUiDataSet();
+        RsSync();
     }
 }
