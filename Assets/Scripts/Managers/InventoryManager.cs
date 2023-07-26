@@ -29,6 +29,7 @@ public class InventoryManager : MonoBehaviour
 
     private bool isDataSet = false; // 데이터 세팅이 되어있는지
 
+    public GameObject ItemBox;
     private Transform slotParent;
     private List<Slot> slots;
 
@@ -56,7 +57,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         if (isDataSet == true) return;
-        slotParent = GameObject.Find("ItemBox").transform.Find("Viewport").GetComponent<Transform>();
+        slotParent = GameObject.Find("ItemBox/Viewport").transform;
         slots = new List<Slot>(slotParent.GetComponentsInChildren<Slot>());
 
         itemInfo = GameObject.Find("ItemInfo");
@@ -65,6 +66,7 @@ public class InventoryManager : MonoBehaviour
         itemInfoDetail = itemInfo.transform.Find("ItemDetail").GetComponent<TMP_Text>();
 
         itemInfo.SetActive(false);
+        ItemBox.SetActive(false);
 
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
         pointerEvent = new PointerEventData(null);

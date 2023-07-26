@@ -65,7 +65,7 @@ public class GameSceneManager : MonoBehaviour
         SceneManager.LoadScene(_name);
         IsSceneLoaded = true;
     }
-    private void GetSceneName()
+    private void getSceneName()
     {
         string strSceneName = SceneManager.GetActiveScene().name;
         switch(strSceneName)
@@ -90,7 +90,7 @@ public class GameSceneManager : MonoBehaviour
     }
     private void Update()
     {
-        GetSceneName();
+        getSceneName();
     }
     /*
         JsonConvert.SerializeObject();
