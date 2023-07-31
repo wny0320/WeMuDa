@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
+    // 굳이 Range를 쓸 이유가 없어서 dynamic으로 따로 컴포넌트를 작성할 것이 아니라면 Range를 안쓰는게 좋을듯
     [Header("Miner Health")]
     [SerializeField]
     [Tooltip("Stress Value"), Range(0,100)]

@@ -57,6 +57,7 @@ public class InventoryManager : MonoBehaviour
             return;
         }
         if (isDataSet == true) return;
+        ItemBox = GameObject.Find("ItemBox");
         slotParent = GameObject.Find("ItemBox/Viewport").transform;
         slots = new List<Slot>(slotParent.GetComponentsInChildren<Slot>());
 
@@ -68,6 +69,7 @@ public class InventoryManager : MonoBehaviour
         itemInfo.SetActive(false);
         ItemBox.SetActive(false);
 
+        canvas = GameObject.Find("Canvas").GetComponent<Canvas>();
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
         pointerEvent = new PointerEventData(null);
         isDataSet = true;
@@ -75,6 +77,7 @@ public class InventoryManager : MonoBehaviour
     public void ItemDetail()
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
+        if (itemInfo == null) return;
         if (Input.GetMouseButtonDown(0))
         {
             pointerEvent.position = Input.mousePosition;
@@ -109,7 +112,7 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-        if(BaseCampUiManager.Instance.itemBox.activeSelf == false)
+        if(ItemBox.activeSelf == false)
         {
             itemInfo.SetActive(false);
         }

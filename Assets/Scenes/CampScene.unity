@@ -10066,14 +10066,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99786b9163e42ff40bee5630d7387b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btList:
-  - {fileID: 189402979}
-  - {fileID: 959499769}
-  - {fileID: 1033121078}
-  - {fileID: 1061398087}
-  - {fileID: 1075638587}
-  isMenuOpen: 0
-  itemBox: {fileID: 1474843063}
 --- !u!114 &918650338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14892,6 +14884,7 @@ GameObject:
   - component: {fileID: 1336105947}
   - component: {fileID: 1336105946}
   - component: {fileID: 1336105945}
+  - component: {fileID: 1336105948}
   m_Layer: 5
   m_Name: SceneChangeTestButton
   m_TagString: Untagged
@@ -15014,6 +15007,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1336105943}
   m_CullTransparentMesh: 1
+--- !u!114 &1336105948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336105943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97dae00f05e0893498edaf6865b9beac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSceneName: 2
 --- !u!1 &1338767338
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,7 @@ public class ExploreMapManager : MonoBehaviour
         //고립된 다른 광부가 있는 방
         miner,
     }
-    static ExploreMapManager instance;
+    private static ExploreMapManager instance;
     public static ExploreMapManager Instance
     {
         get
@@ -47,53 +47,56 @@ public class ExploreMapManager : MonoBehaviour
         }
     }
     [SerializeField]
-    Vector2[,] loca;
+    private Vector2[,] loca;
     [SerializeField]
-    bool[,] locaFlag;
+    private bool[,] locaFlag;
 
-    Vector2 startPos;
+    private Vector2 startPos;
     [SerializeField]
-    GameObject startPoint;
+    private GameObject startPoint;
 
     [SerializeField]
-    GameObject roomPrefab;
+    private GameObject roomPrefab;
     [SerializeField]
-    GameObject mapCanvas;
+    private GameObject mapCanvas;
     [SerializeField]
-    GameObject cursorPrefab;
+    private GameObject cursorPrefab;
     [SerializeField]
-    GameObject cursor;
+    private GameObject cursor;
 
-    int mapSize = 0;
+    private int mapSize = 0;
     [SerializeField]
-    int maxMapSize;
+    private int maxMapSize;
 
-    int nowX;
-    int nowY;
+    private int nowX;
+    private int nowY;
 
     //roomInfo 관련 field
     public List<RoomInformation> RoomInformationList;
-    [SerializeField]
-    Canvas canvas;
-    GraphicRaycaster graphicRaycaster;
-    PointerEventData pointerEvent;
+    private Canvas canvas;
+    private GraphicRaycaster graphicRaycaster;
+    private PointerEventData pointerEvent;
 
-    GameObject targetRoom = null;
+    private GameObject targetRoom = null;
     [SerializeField]
-    Image roomInfoImage;
+    private Image roomInfoImage;
     [SerializeField]
-    TMP_Text roomName;
+    private TMP_Text roomName;
     [SerializeField]
-    TMP_Text roomExplain;
+    private TMP_Text roomExplain;
     [SerializeField]
-    GameObject roomInfoObject;
+    private GameObject roomInfoObject;
     [SerializeField]
-    Sprite exploreSprite;
-    float roomNowTime = 0f;
+    private Sprite exploreSprite;
+    private float roomNowTime = 0f;
     [SerializeField, Tooltip("맵의 정보를 띄우는데 걸리는 시간"), Range(0, 1)]
-    float roomMaxTime = 1f;
+    private float roomMaxTime = 1f;
 
-    void GetSize()
+    private void ExploreSetting()
+    {
+
+    }
+    private void GetSize()
     {
         Vector2 _leftBottom = CameraManager.Instance.cam.ViewportToWorldPoint(new Vector2(0, 0));
         Vector2 _rightUp = CameraManager.Instance.cam.ViewportToWorldPoint(new Vector2(1, 1));
@@ -110,7 +113,7 @@ public class ExploreMapManager : MonoBehaviour
         }
     }
 
-    void SetStartPoint()
+    private void SetStartPoint()
     {
         startPos = CameraManager.Instance.cam.WorldToScreenPoint(loca[1, 5]);
         startPoint = Instantiate(roomPrefab);
@@ -127,18 +130,19 @@ public class ExploreMapManager : MonoBehaviour
         nowX = _x;
         nowY = _y;
     }
-    void SetCursor()
+    private void SetCursor()
     {
         cursor = Instantiate(cursorPrefab);
         cursor.transform.SetParent(mapCanvas.transform);
         cursor.transform.position = new Vector2(startPos.x + 50f, startPos.y + 50f);
     }
-    void CursorUpdate()
+    private void CursorUpdate()
     {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
         Vector2 _cursorPos = CameraManager.Instance.cam.WorldToScreenPoint(loca[nowX, nowY]);
         cursor.transform.position = new Vector2(_cursorPos.x + 50f, _cursorPos.y + 50f);
     }
-    void MapMaking(int _xPos, int _yPos)
+    private void MapMaking(int _xPos, int _yPos)
     {
         int _x = _xPos;
         int _y = _yPos;
@@ -250,6 +254,7 @@ public class ExploreMapManager : MonoBehaviour
     /// </summary>
     private void roomInfo()
     {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
         pointerEvent.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
         graphicRaycaster.Raycast(pointerEvent, results);
@@ -296,6 +301,7 @@ public class ExploreMapManager : MonoBehaviour
     }
     public void SceneLoadedFunc()
     {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
         if (GameSceneManager.Instance.IsExploreSceneLoaded == true) return; // 이전에 로드된 적이 있다면 함수 종료
         GetSize();
         SetStartPoint();
@@ -353,15 +359,13 @@ public class ExploreMapManager : MonoBehaviour
 
     private void Awake()
     {
-        roomReset();
-        roomInfoActive(false);
+        //roomReset();
+        //roomInfoActive(false);
     }
     // Start is called before the first frame update
     void Start()
     {
-        SceneLoadedFunc();
-        //RoomDataExport();
-        //RoomDataImport();
+        //SceneLoadedFunc();
     }
 
     // Update is called once per frame

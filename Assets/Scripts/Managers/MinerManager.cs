@@ -32,18 +32,18 @@ public class MinerManager : MonoBehaviour
         LastNameList = new string[] {"±è","ÀÌ","¹Ú","°­","³²±Ã","°û","°í","±â","´ë","µ¶","·ù","ÀÓ","¼±","¼³","Ã¢","Àå","ÇÔ","Àü","¹é","À±","Çã"};
         FirstNameList = new string[] {"¼ºÈÆ","¼öºó","¹ÎÈ£","ÇıÁø","¹Î¿í","°­¹Î","»ó¹Î","Ã¶¼ö","¹ÎÀç","Ã¢¹Î","¹Î»ó","Áø¿ì","³ª¿µ","Á¤¿¬","Áö¿õ","Á¾Çõ","ÀåÇõ","ÈÆ", "¹Î"};
     }
-    Sprite RandomSprite()
+    private Sprite RandomSprite()
     {
         return MinerSprite[Random.Range(0, MinerSprite.Count - 1)];
     }
 
-    string RandomName()
+    private string RandomName()
     {
         string minerName = LastNameList[Random.Range(0, LastNameList.Length - 1)] + FirstNameList[Random.Range(0, FirstNameList.Length - 1)];
         return minerName;
     }
 
-    void InsantiateMiner()
+    private void InstantiateMiner()
     {
         Sprite sprite = RandomSprite();
         string name = RandomName();
@@ -62,6 +62,12 @@ public class MinerManager : MonoBehaviour
         miner.Spawn(name,sprite);
         obj.transform.parent = transform;
         MinerList.Add(miner);
+    }
+    public void InitMiner()
+    {
+        InstantiateMiner();
+        InstantiateMiner();
+        InstantiateMiner();
     }
 
     public void OneDayAfterMng()

@@ -26,33 +26,60 @@ public class MinerInfoManager : MonoBehaviour
         }
     }
     public GameObject ExploreTeamOrganizeUi;
-    private bool isUiDataSet = false;
+    private bool isDataSet = false;
 
     TMP_Text minerNameText;
-    List<TMP_Text> statTextList;
-    List<TMP_Text> healthTextList;
-    List<TMP_Text> perAbilityTextList;
-    List<TMP_Text> posAbilityTextList;
-    List<TMP_Text> negAbilityTextList;
+    List<TMP_Text> statTextList = new List<TMP_Text>();
+    List<TMP_Text> healthTextList = new List<TMP_Text>();
+    List<TMP_Text> perAbilityTextList = new List<TMP_Text>();
+    List<TMP_Text> posAbilityTextList = new List<TMP_Text>();
+    List<TMP_Text> negAbilityTextList = new List<TMP_Text>();
 
     public List<Miner> ExploreMinerList = new List<Miner>();
     private int index = 0;
     
-    private void findExploreTeamOrganizeUi()
+    private void MinerInfoSetting()
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene)
         {
-            isUiDataSet = false;
+            isDataSet = false;
             return;
         }
-        if (isUiDataSet == true) return;
+        if (isDataSet == true) return;
         ExploreTeamOrganizeUi = GameObject.Find("ExploreTeamOrganizeBackground");
+
+        // 텍스트들 찾기
+        minerNameText = ExploreTeamOrganizeUi.transform.Find("MinerName").GetComponent<TMP_Text>();
+
+        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("StrValue").GetComponent<TMP_Text>());
+        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("AgiValue").GetComponent<TMP_Text>());
+        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("VitValue").GetComponent<TMP_Text>());
+        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("DexValue").GetComponent<TMP_Text>());
+        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("IntValue").GetComponent<TMP_Text>());
+
+        healthTextList.Add(ExploreTeamOrganizeUi.transform.Find("StressValue").GetComponent<TMP_Text>());
+        healthTextList.Add(ExploreTeamOrganizeUi.transform.Find("HungryValue").GetComponent<TMP_Text>());
+        healthTextList.Add(ExploreTeamOrganizeUi.transform.Find("ThirstyValue").GetComponent<TMP_Text>());
+
+        perAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PerfectAbilityBackground/PerfectAbility1").GetComponent<TMP_Text>());
+        perAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PerfectAbilityBackground/PerfectAbility2").GetComponent<TMP_Text>());
+        perAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PerfectAbilityBackground/PerfectAbility3").GetComponent<TMP_Text>());
+
+        posAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PositiveAbilityBackground/PositiveAbility1").GetComponent<TMP_Text>());
+        posAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PositiveAbilityBackground/PositiveAbility2").GetComponent<TMP_Text>());
+        posAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PositiveAbilityBackground/PositiveAbility3").GetComponent<TMP_Text>());
+
+        negAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("NegativeAbilityBackground/NegativeAbility1").GetComponent<TMP_Text>());
+        negAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("NegativeAbilityBackground/NegativeAbility2").GetComponent<TMP_Text>());
+        negAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("NegativeAbilityBackground/NegativeAbility3").GetComponent<TMP_Text>());
+
         ExploreTeamOrganizeUi.SetActive(false);
-        isUiDataSet = true;
+        isDataSet = true;
     }
     public void ShowMinerInfo()
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
+        if (ExploreTeamOrganizeUi == null) return;
         if (ExploreTeamOrganizeUi.activeSelf == false) return;
         Miner target = MinerManager.Instance.MinerList[index];
         Stat targetStat = target.gameObject.GetComponent<Stat>();
@@ -125,7 +152,7 @@ public class MinerInfoManager : MonoBehaviour
     }
     private void Update()
     {
-        findExploreTeamOrganizeUi();
+        MinerInfoSetting();
         ShowMinerInfo();
     }
 }

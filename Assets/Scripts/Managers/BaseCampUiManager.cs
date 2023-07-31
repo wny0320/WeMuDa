@@ -23,7 +23,6 @@ public class BaseCampUiManager : MonoBehaviour
             return instance;
         }
     }
-    private GameObject itemBox;
     private List<GameObject> btList;
     private bool isMenuOpen;
     private List<GameObject> uiList = new List<GameObject>();
@@ -40,7 +39,6 @@ public class BaseCampUiManager : MonoBehaviour
         }
         if (isDataSet == true) return true; // 데이터 세팅 완료된 경우
         GameObject targetUiObject = InventoryManager.Instance.ItemBox;
-        itemBox = targetUiObject;
         List<GameObject> m_ObjectList = new List<GameObject>();
         if (targetUiObject == null) return false;
         m_ObjectList.Add(targetUiObject);
@@ -66,7 +64,7 @@ public class BaseCampUiManager : MonoBehaviour
         if (isDataSet == true) return true; // 데이터 세팅 완료된 경우
         GameObject m_menuBar = GameObject.Find("MenuBarBt");
         List<GameObject> m_ObjectList = new List<GameObject>();
-        m_ObjectList.Add(m_menuBar);
+        //m_ObjectList.Add(m_menuBar);
         m_ObjectList.Add(m_menuBar.transform.Find("Item").gameObject);
         m_ObjectList.Add(m_menuBar.transform.Find("Manufact").gameObject);
         m_ObjectList.Add(m_menuBar.transform.Find("Explore").gameObject);
@@ -75,6 +73,8 @@ public class BaseCampUiManager : MonoBehaviour
         if (m_ObjectList.Contains(null)) return false; // 해당 버튼이 아직 생성되지 않은 경우(씬만 로드된 경우)
         else
         {
+            btList = m_ObjectList.ToList();
+            closeMenu();
             return true;
         }
     }
@@ -107,9 +107,9 @@ public class BaseCampUiManager : MonoBehaviour
             isMenuOpen = false;
         }
     }
-
     public void ItemBoxUiManage()
     {
+        GameObject itemBox = InventoryManager.Instance.ItemBox;
         if (itemBox.activeSelf)
         {
             itemBox.SetActive(false);
@@ -168,11 +168,8 @@ public class BaseCampUiManager : MonoBehaviour
     {
 
     }
-    private void Awake()
+    private void Update()
     {
         listSet();
-        closeMenu();
-        // 이 친구가 꺼버려서 인벤토리 매니저가 itemBox를 찾지 못함,
-        // 따라서 이 코드를 inventoryManager로 코드를 넣어야함, 두 데이터 isDataSet 데이터 이용하면 될듯?
     }
 }

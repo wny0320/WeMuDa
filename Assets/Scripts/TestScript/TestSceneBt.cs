@@ -11,7 +11,7 @@ public class TestSceneBt : MonoBehaviour
         button = GetComponent<Button>();
         button.onClick.AddListener (() =>
         {
-            GameSceneManager.Instance.ChangeToCampScene();
+            GameSceneManager.Instance.ChangeFromExploreScene();
         });
     }
 }

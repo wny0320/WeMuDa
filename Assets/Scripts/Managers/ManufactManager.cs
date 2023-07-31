@@ -37,6 +37,7 @@ public class ManufactManager : MonoBehaviour
     // 제조 아이템의 이미지
     private Image manufactItemImage;
     // 제조 아이템이 들어갈 프리팹
+    [SerializeField]
     private GameObject manufactItemPrefab;
     // 제조 아이템 프리팹의 부모가 될 ViewPort의 Content 부분
     private GameObject bluePrint;
@@ -76,6 +77,8 @@ public class ManufactManager : MonoBehaviour
         materialUi.Add(m_bluePrintList.Find("MaterialItem1").gameObject);
         materialUi.Add(m_bluePrintList.Find("MaterialItem2").gameObject);
         materialUi.Add(m_bluePrintList.Find("MaterialItem3").gameObject);
+
+        manufactItemImage = m_bluePrintList.Find("ItemImage").GetComponent<Image>();
 
         int m_materialItemCount = (int)materialKind.amount;
         for(int i = 0; i < m_materialItemCount; i++)
@@ -119,6 +122,7 @@ public class ManufactManager : MonoBehaviour
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
         //UI가 꺼져있다면 데이터 갱신을 하지 않음
+        if (ManufactUi == null) return;
         if (ManufactUi.activeSelf == false) return;
         // 아이템이 선택되지 않았다면 첫번째 아이템으로 띄우게 됨
         if (item == null) item = ManufactItem[0];

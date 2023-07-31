@@ -16,6 +16,7 @@ public class GameSceneManager : MonoBehaviour
     }
     public bool IsExploreSceneLoaded = false;
     public bool IsSceneLoaded = false;
+    public bool IsGameStart = false;
 
     public SceneName NowSceneName;
 
@@ -43,25 +44,28 @@ public class GameSceneManager : MonoBehaviour
         if(IsExploreSceneLoaded == true)
         {
             // ExploreScene이 로드된 적이 있다면 맵생성을 하지 않고 Json파일을 가져오기
-            SceneManager.LoadScene(SceneName.ExploreScene.ToString());
+            //SceneManager.LoadScene(SceneName.ExploreScene.ToString());
             ExploreMapManager.Instance.RoomDataImport();
         }
         else
         {
             // Scene 전환
-            SceneManager.LoadScene(SceneName.ExploreScene.ToString());
+            //SceneManager.LoadScene(SceneName.ExploreScene.ToString());
         }
-        IsSceneLoaded = true;
+        //IsSceneLoaded = true;
     }
-    public void ChangeToCampScene()
+    public void ChangeFromExploreScene()
     {
         IsExploreSceneLoaded = true;
         ExploreMapManager.Instance.RoomDataExport();
-        SceneManager.LoadScene(SceneName.CampScene.ToString());
-        IsSceneLoaded = true;
+        //SceneManager.LoadScene(SceneName.CampScene.ToString());
+        //IsSceneLoaded = true;
     }
     public void SceneMove(string _name)
     {
+        if (NowSceneName == SceneName.StoryScene && _name == SceneName.CampScene.ToString()) MinerManager.Instance.InitMiner();
+        if (_name == SceneName.ExploreScene.ToString()) ChangeToExploreScene();
+        if (NowSceneName == SceneName.ExploreScene) ChangeFromExploreScene();
         SceneManager.LoadScene(_name);
         IsSceneLoaded = true;
     }
