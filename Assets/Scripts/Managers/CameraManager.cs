@@ -23,14 +23,14 @@ public class CameraManager : MonoBehaviour
             return instance;
         }
     }
-
-    private void Awake()
-    {
-        CameraSet();
-    }
-
     public void CameraSet()
     {
+        if(cam == null)
         cam = Camera.main;
+    }
+
+    private void Update()
+    {
+        CameraSet();
     }
 }

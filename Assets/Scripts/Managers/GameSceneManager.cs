@@ -17,6 +17,7 @@ public class GameSceneManager : MonoBehaviour
     public bool IsExploreSceneLoaded = false;
     public bool IsSceneLoaded = false;
     public bool IsGameStart = false;
+    public bool IsSceneNameChanged = false; // Scene이 전환되는 과정에 Flag는 바뀌었는데 Scene은 바뀌는데 오래 걸려서 넣은 bool
 
     public SceneName NowSceneName;
 
@@ -72,6 +73,11 @@ public class GameSceneManager : MonoBehaviour
     private void getSceneName()
     {
         string strSceneName = SceneManager.GetActiveScene().name;
+        if(strSceneName == NowSceneName.ToString())
+        {
+            IsSceneNameChanged = false;
+            return;
+        }
         switch(strSceneName)
         {
             case "CampScene":
@@ -87,6 +93,7 @@ public class GameSceneManager : MonoBehaviour
                 NowSceneName = SceneName.Error;
                 break;
         }
+        IsSceneNameChanged = true;
     }
     private void LateUpdate()
     {

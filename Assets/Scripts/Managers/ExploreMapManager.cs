@@ -58,7 +58,7 @@ public class ExploreMapManager : MonoBehaviour
     [SerializeField]
     private GameObject roomPrefab;
     [SerializeField]
-    private GameObject mapCanvas;
+    private GameObject mapCanvasObject;
     [SerializeField]
     private GameObject cursorPrefab;
     [SerializeField]
@@ -66,7 +66,7 @@ public class ExploreMapManager : MonoBehaviour
 
     private int mapSize = 0;
     [SerializeField]
-    private int maxMapSize;
+    private int maxMapSize = 20;
 
     private int nowX;
     private int nowY;
@@ -92,9 +92,46 @@ public class ExploreMapManager : MonoBehaviour
     [SerializeField, Tooltip("맵의 정보를 띄우는데 걸리는 시간"), Range(0, 1)]
     private float roomMaxTime = 1f;
 
+    private Coroutine loop = null;
+    private bool IsDateSet = false;
+
     private void ExploreSetting()
     {
+        // Scene이 로드 된 때가 아닌경우
+        // 즉 Update가 한번 돌고 다음턴에 LateUpdate로 IsSceneLoaded가 false가 된 경우
+        if (GameSceneManager.Instance.IsSceneLoaded == false) return;
+        if(loop == null) loop = StartCoroutine(sceneNameLoop());
+    }
+    private void findData()
+    {
+        canvas = GameObject.Find("RoomCanvas").GetComponent<Canvas>();
+        mapCanvasObject = GameObject.Find("RoomCanvas");
+        roomInfoObject = GameObject.Find("RoomInfoCanvas/RoomInfoBackground");
+    }
+    // Scene이 바뀌었지만 아직 로드가 안된경우 비동기식으로 바뀐 Scene의 이름을 찾고 그 Scene이 해당하는 씬일 경우 세팅
+    private IEnumerator sceneNameLoop()
+    {
+        while (GameSceneManager.Instance.IsSceneNameChanged == false)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene)
+        {
+            loop = null;
+            IsDateSet = false;
+            yield break;
+        }
 
+        findData(); // 매니저가 필요한 데이터를 찾는 함수
+        roomInfoDataReset(); // RoomInfo를 띄우기 위한 데이터를 찾는 함수
+        GetSize(); // 맵크기를 받는 함수
+        SetStartPoint(); // 시작 지점을 지정하는 함수
+        SceneLoadedFunc(); // Scene이 로드되었을 때 맵을 만드는 함수
+        roomInfoActive(false); // roomInfo 오브젝트를 비활성화 하는 함수
+        StopCoroutine(sceneNameLoop()); // 이 Coroutine 정지
+        loop = null; // Coroutine을 비움
+        IsDateSet = true; // 데이터 셋팅이 다 되었다고 표시
+        yield break;
     }
     private void GetSize()
     {
@@ -119,7 +156,7 @@ public class ExploreMapManager : MonoBehaviour
         startPoint = Instantiate(roomPrefab);
         startPoint.name = "StartPoint";
         startPoint.GetComponent<Room>().StartRoomSet(loca[1, 5], startPos, new int[] { 1, 5 });
-        startPoint.transform.SetParent(mapCanvas.transform);
+        startPoint.transform.SetParent(mapCanvasObject.transform);
         nowX = 1;
         nowY = 5;
         locaFlag[nowX, nowY] = true;
@@ -133,12 +170,13 @@ public class ExploreMapManager : MonoBehaviour
     private void SetCursor()
     {
         cursor = Instantiate(cursorPrefab);
-        cursor.transform.SetParent(mapCanvas.transform);
+        cursor.transform.SetParent(mapCanvasObject.transform);
         cursor.transform.position = new Vector2(startPos.x + 50f, startPos.y + 50f);
     }
     private void CursorUpdate()
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
+        if (IsDateSet == false) return;
         Vector2 _cursorPos = CameraManager.Instance.cam.WorldToScreenPoint(loca[nowX, nowY]);
         cursor.transform.position = new Vector2(_cursorPos.x + 50f, _cursorPos.y + 50f);
     }
@@ -189,7 +227,7 @@ public class ExploreMapManager : MonoBehaviour
                 if (_dice)
                 {
                     GameObject _target = Instantiate(roomPrefab);
-                    _target.transform.SetParent(mapCanvas.transform);
+                    _target.transform.SetParent(mapCanvasObject.transform);
                     Room _targetRoom = _target.GetComponent<Room>();
                     Vector2 _targetPos = CameraManager.Instance.cam.WorldToScreenPoint(loca[i, j]);
                     _targetRoom.RoomInstiate(loca[i, j], _targetPos, new int[2] { i, j });
@@ -240,7 +278,7 @@ public class ExploreMapManager : MonoBehaviour
         //}
         return false;
     }
-    private void roomReset()
+    private void roomInfoDataReset()
     {
         graphicRaycaster = canvas.GetComponent<GraphicRaycaster>();
         pointerEvent = new PointerEventData(null);
@@ -255,6 +293,7 @@ public class ExploreMapManager : MonoBehaviour
     private void roomInfo()
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
+        if (IsDateSet == false) return;
         pointerEvent.position = Input.mousePosition;
         List<RaycastResult> results = new List<RaycastResult>();
         graphicRaycaster.Raycast(pointerEvent, results);
@@ -288,11 +327,12 @@ public class ExploreMapManager : MonoBehaviour
     }
     public void SetExploreCanvas(bool _tf)
     {
-        mapCanvas.SetActive(_tf);
+        mapCanvasObject.SetActive(_tf);
     }
     public void StartExplore(List<GameObject> _minerList)
     {
-
+        // 해당하는 광부들의 탐험을 시작함
+        // 해당하는 광부 데이터를 받기 위해서 인수를 넣은듯?
     }
     public void BattleModeToExploreMode()
     {
@@ -303,15 +343,13 @@ public class ExploreMapManager : MonoBehaviour
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
         if (GameSceneManager.Instance.IsExploreSceneLoaded == true) return; // 이전에 로드된 적이 있다면 함수 종료
-        GetSize();
-        SetStartPoint();
         MapMaking(nowX, nowY);
         SetCursor();
         BackgroundManager.Instance.SetBackground(exploreSprite);
     }
     public void RoomDataExport()
     {
-        Room[] roomArray = mapCanvas.GetComponentsInChildren<Room>();
+        Room[] roomArray = mapCanvasObject.GetComponentsInChildren<Room>();
         List<RoomJsonData> roomJsonDatasList = new List<RoomJsonData>();
         int roomCount = roomArray.Length;
         for (int i = 0; i < roomCount; i++)
@@ -342,13 +380,14 @@ public class ExploreMapManager : MonoBehaviour
     {
         //시작 방은 제외했으므로 다시 생성
         //커서 만들어줘야 함
-        SetStartPoint();
+        //다른 코드에서 만들어줌
+        //SetStartPoint();
 
         int count = _roomJsonDatasList.Count;
         for(int i = 0; i < count; i++)
         {
             Room m_room = Instantiate(roomPrefab).GetComponent<Room>();
-            m_room.transform.SetParent(mapCanvas.transform);
+            m_room.transform.SetParent(mapCanvasObject.transform);
             int m_roomNumX = _roomJsonDatasList[i].roomNumX;
             int m_roomNumY = _roomJsonDatasList[i].roomNumY;
             Vector2 m_roomloca = loca[m_roomNumX, m_roomNumY];
@@ -371,6 +410,7 @@ public class ExploreMapManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ExploreSetting();
         CursorUpdate();
         roomInfo();
     }

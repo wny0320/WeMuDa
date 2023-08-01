@@ -756,6 +756,7 @@ MonoBehaviour:
   IsExploreSceneLoaded: 0
   IsSceneLoaded: 0
   IsGameStart: 0
+  IsSceneNameChanged: 0
   NowSceneName: 0
 --- !u!114 &9153690698612192046
 MonoBehaviour:
@@ -791,23 +792,31 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3218897464440747459}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92fde6b601877544db246ebc8ea4a56e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startPoint: {fileID: 0}
-  roomPrefab: {fileID: 0}
-  mapCanvas: {fileID: 0}
-  cursorPrefab: {fileID: 0}
+  roomPrefab: {fileID: 2979586997476995372, guid: a1923a0cee2cb1146b3865c000b2c3ee, type: 3}
+  mapCanvasObject: {fileID: 0}
+  cursorPrefab: {fileID: 3890044927209307736, guid: 731c11426dbdcf546bf0fe86262ed28b, type: 3}
   cursor: {fileID: 0}
-  maxMapSize: 0
-  RoomInformationList: []
+  maxMapSize: 20
+  RoomInformationList:
+  - {fileID: 11400000, guid: 43586dbb56b6a79428aa732c674b3b40, type: 2}
+  - {fileID: 11400000, guid: a43706c5e0f205045922bdc65c8574a0, type: 2}
+  - {fileID: 11400000, guid: 17146d0eb9a312044babc18b3ed0922e, type: 2}
+  - {fileID: 11400000, guid: dd7137dd4383f5542888bcc38d156047, type: 2}
+  - {fileID: 11400000, guid: 1c62ae67c3121fe47aa8c8400939d24a, type: 2}
+  - {fileID: 11400000, guid: ac99844438699554baa0acd52b956965, type: 2}
+  - {fileID: 11400000, guid: 47578280a5602344d82885adf07365a4, type: 2}
+  - {fileID: 11400000, guid: c4dcf814102ab3e4a8d612bea24ed5a8, type: 2}
   roomInfoImage: {fileID: 0}
   roomName: {fileID: 0}
   roomExplain: {fileID: 0}
   roomInfoObject: {fileID: 0}
-  exploreSprite: {fileID: 0}
+  exploreSprite: {fileID: 21300000, guid: 8be6c368ae48b3841a7482d654109b8b, type: 3}
   roomMaxTime: 1
 --- !u!114 &9153690698612192049
 MonoBehaviour:
@@ -863,7 +872,7 @@ MonoBehaviour:
   mainAct: {fileID: 0}
   fightAct: {fileID: 0}
   inventory: {fileID: 0}
-  battleBackgtound: {fileID: 0}
+  battleBackgtound: {fileID: 21300000, guid: 9d93f8c869ce17c4585f4a25a99ad999, type: 3}
   IsBattleStart: 0
 --- !u!114 &9153690698612192053
 MonoBehaviour:
@@ -889,4 +898,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08daabfcce32b78448d7729a564cf6a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  backgroundImage: {fileID: 0}

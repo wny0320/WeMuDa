@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class BackgroundManager : MonoBehaviour
 {
-    [SerializeField]
-    Image backgroundImage;
+    private Image backgroundImage;
     private static BackgroundManager instance;
     public static BackgroundManager Instance
     {
@@ -28,5 +27,18 @@ public class BackgroundManager : MonoBehaviour
     public void SetBackground(Sprite _sprite)
     {
         backgroundImage.sprite = _sprite;
+    }
+    
+    private void backgroundDataSet()
+    {
+        if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
+        if(backgroundImage == null)
+        {
+            backgroundImage = GameObject.Find("BackgroundCanvas/Background").GetComponent<Image>();
+        }
+    }
+    private void Update()
+    {
+        backgroundDataSet();
     }
 }
