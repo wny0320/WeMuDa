@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
+/// <summary>
+/// Scene 전환할 때 Scene의 이름으로 전환되며 해당 Scene을 Enum으로 관리, Scene 전환 이벤트를 bool로 Flag를 받음
+/// </summary>
 public class GameSceneManager : MonoBehaviour
 {
     public enum SceneName
