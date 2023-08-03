@@ -11,6 +11,8 @@ public class ExploreMapManager : MonoBehaviour
 {
     public enum RoomKind
     {
+        //미지정
+        non = -2,
         //탐험 시작 지점
         start = -1,
         //식수를 얻거나 낚시를 할 수 있는 동굴 호수 방
@@ -107,6 +109,9 @@ public class ExploreMapManager : MonoBehaviour
         canvas = GameObject.Find("RoomCanvas").GetComponent<Canvas>();
         mapCanvasObject = GameObject.Find("RoomCanvas");
         roomInfoObject = GameObject.Find("RoomInfoCanvas/RoomInfoBackground");
+        roomInfoImage = roomInfoObject.transform.Find("RoomImage").GetComponent<Image>();
+        roomName = roomInfoObject.transform.Find("RoomNameText").GetComponent<TMP_Text>();
+        roomExplain = roomInfoObject.transform.Find("RoomExplainText").GetComponent<TMP_Text>();
     }
     // Scene이 바뀌었지만 아직 로드가 안된경우 비동기식으로 바뀐 Scene의 이름을 찾고 그 Scene이 해당하는 씬일 경우 세팅
     private IEnumerator sceneNameLoop()
@@ -127,6 +132,9 @@ public class ExploreMapManager : MonoBehaviour
         GetSize(); // 맵크기를 받는 함수
         SetStartPoint(); // 시작 지점을 지정하는 함수
         SceneLoadedFunc(); // Scene이 로드되었을 때 맵을 만드는 함수
+        if (GameSceneManager.Instance.IsExploreSceneLoaded == true) RoomDataImport();
+        SetCursor();
+        BackgroundManager.Instance.SetBackground(exploreSprite);
         roomInfoActive(false); // roomInfo 오브젝트를 비활성화 하는 함수
         StopCoroutine(sceneNameLoop()); // 이 Coroutine 정지
         loop = null; // Coroutine을 비움
@@ -155,7 +163,8 @@ public class ExploreMapManager : MonoBehaviour
         startPos = CameraManager.Instance.cam.WorldToScreenPoint(loca[1, 5]);
         startPoint = Instantiate(roomPrefab);
         startPoint.name = "StartPoint";
-        startPoint.GetComponent<Room>().StartRoomSet(loca[1, 5], startPos, new int[] { 1, 5 });
+        Room startRoom = startPoint.GetComponent<Room>();
+        startRoom.StartRoomSet(loca[1, 5], startPos, new int[] { 1, 5 });
         startPoint.transform.SetParent(mapCanvasObject.transform);
         nowX = 1;
         nowY = 5;
@@ -344,8 +353,6 @@ public class ExploreMapManager : MonoBehaviour
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
         if (GameSceneManager.Instance.IsExploreSceneLoaded == true) return; // 이전에 로드된 적이 있다면 함수 종료
         MapMaking(nowX, nowY);
-        SetCursor();
-        BackgroundManager.Instance.SetBackground(exploreSprite);
     }
     public void RoomDataExport()
     {
@@ -374,15 +381,18 @@ public class ExploreMapManager : MonoBehaviour
         if (File.Exists(path) == false) Debug.LogError("저장된 json파일이 존재하지 않습니다!");
         string json = File.ReadAllText(path);
         roomJsonDatasList = JsonConvert.DeserializeObject<List<RoomJsonData>>(json);
-        InstantiateRoomFromJson(roomJsonDatasList);
+        StartCoroutine(InstantiateRoomFromJson(roomJsonDatasList));
     }
-    public void InstantiateRoomFromJson(List<RoomJsonData> _roomJsonDatasList)
+    private IEnumerator InstantiateRoomFromJson(List<RoomJsonData> _roomJsonDatasList)
     {
         //시작 방은 제외했으므로 다시 생성
         //커서 만들어줘야 함
         //다른 코드에서 만들어줌
         //SetStartPoint();
-        
+        while(GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene)
+        {
+            yield return new WaitForEndOfFrame();
+        }
         int count = _roomJsonDatasList.Count;
         for(int i = 0; i < count; i++)
         {
@@ -390,10 +400,12 @@ public class ExploreMapManager : MonoBehaviour
             m_room.transform.SetParent(mapCanvasObject.transform);
             int m_roomNumX = _roomJsonDatasList[i].roomNumX;
             int m_roomNumY = _roomJsonDatasList[i].roomNumY;
+            bool m_isRoomClear = _roomJsonDatasList[i].isRoomClear;
             Vector2 m_roomloca = loca[m_roomNumX, m_roomNumY];
             Vector2 m_roomPos = CameraManager.Instance.cam.WorldToScreenPoint(loca[m_roomNumX, m_roomNumY]);
-            m_room.AdaptRoomData(_roomJsonDatasList[i], m_roomloca, m_roomPos);
+            m_room.AdaptRoomData(_roomJsonDatasList[i], m_roomloca, m_roomPos, m_isRoomClear);
         }
+        yield return null;
     }
 
     private void Awake()

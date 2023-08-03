@@ -68,7 +68,7 @@ public class GameSceneManager : MonoBehaviour
     public void SceneMove(string _name)
     {
         if (NowSceneName == SceneName.StoryScene && _name == SceneName.CampScene.ToString()) MinerManager.Instance.InitMiner();
-        if (_name == SceneName.ExploreScene.ToString()) ChangeToExploreScene();
+        //if (_name == SceneName.ExploreScene.ToString()) ChangeToExploreScene();
         if (NowSceneName == SceneName.ExploreScene) ChangeFromExploreScene();
         SceneManager.LoadScene(_name);
         IsSceneLoaded = true;

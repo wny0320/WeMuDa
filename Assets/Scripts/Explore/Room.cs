@@ -109,20 +109,22 @@ public class Room : MonoBehaviour
         roomJsonData.roomNumY = roomNum[1];
         return roomJsonData;
     }
-    public void AdaptRoomData(RoomJsonData _roomJsonData, Vector2 _loca, Vector2 _pos)
+    public void AdaptRoomData(RoomJsonData _roomJsonData, Vector2 _loca, Vector2 _pos, bool _isRoomClear)
     {
         roomPos = _loca;
         transform.position = _pos;
+        isRoomClear = _isRoomClear;
         roomNum = new int[] { _roomJsonData.roomNumX, _roomJsonData.roomNumY };
         //아직 룸 타입이 정해지지 않은 경우, 즉 탐색하지 않은 경우
         int m_roomType = _roomJsonData.roomType;
-        if(m_roomType == -1) revealed.SetActive(false);
+        if(m_roomType == -2) revealed.SetActive(false);
         else
         {
             roomInformation = ExploreMapManager.Instance.RoomInformationList[m_roomType];
             roomType = (int)(ExploreMapManager.RoomKind)m_roomType;
             revealedImage.sprite = ExploreMapManager.Instance.RoomInformationList[m_roomType].RoomSprite;
-            revealedFrameImage.color = new Color(1, 0, 0, 1);
+            if (isRoomClear == true) revealedFrameImage.color = new Color(1, 0, 0, 0);
+            else revealedFrameImage.color = new Color(1, 0, 0, 1);
             unrevealed.SetActive(false);
             revealed.SetActive(true);
         }

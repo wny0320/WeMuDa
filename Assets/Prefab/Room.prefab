@@ -457,7 +457,7 @@ MonoBehaviour:
   revealed: {fileID: 4594208715773663034}
   revealedImage: {fileID: 2979586997091514690}
   roomInformation: {fileID: 0}
-  roomType: -1
+  roomType: -2
   roomTypeSprite:
   - {fileID: 21300000, guid: 298f84aa997815144b04125a8a1d30c0, type: 3}
   - {fileID: 21300000, guid: 9d93f8c869ce17c4585f4a25a99ad999, type: 3}
