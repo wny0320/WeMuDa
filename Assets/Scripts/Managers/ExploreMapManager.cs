@@ -48,22 +48,17 @@ public class ExploreMapManager : MonoBehaviour
             return instance;
         }
     }
-    [SerializeField]
     private Vector2[,] loca;
-    [SerializeField]
     private bool[,] locaFlag;
 
     private Vector2 startPos;
-    [SerializeField]
     private GameObject startPoint;
 
     [SerializeField]
     private GameObject roomPrefab;
-    [SerializeField]
     private GameObject mapCanvasObject;
     [SerializeField]
     private GameObject cursorPrefab;
-    [SerializeField]
     private GameObject cursor;
 
     private int mapSize = 0;
@@ -80,13 +75,9 @@ public class ExploreMapManager : MonoBehaviour
     private PointerEventData pointerEvent;
 
     private GameObject targetRoom = null;
-    [SerializeField]
     private Image roomInfoImage;
-    [SerializeField]
     private TMP_Text roomName;
-    [SerializeField]
     private TMP_Text roomExplain;
-    [SerializeField]
     private GameObject roomInfoObject;
     [SerializeField]
     private Sprite exploreSprite;
