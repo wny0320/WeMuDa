@@ -49,29 +49,51 @@ public class MinerInfoManager : MonoBehaviour
         ExploreTeamOrganizeUi = GameObject.Find("ExploreTeamOrganizeBackground");
 
         // 텍스트들 찾기
-        minerNameText = ExploreTeamOrganizeUi.transform.Find("MinerName").GetComponent<TMP_Text>();
+        Transform m_uiTransform = ExploreTeamOrganizeUi.transform;
+        minerNameText = m_uiTransform.Find("MinerName").GetComponent<TMP_Text>();
 
-        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("StrValue").GetComponent<TMP_Text>());
-        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("AgiValue").GetComponent<TMP_Text>());
-        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("VitValue").GetComponent<TMP_Text>());
-        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("DexValue").GetComponent<TMP_Text>());
-        statTextList.Add(ExploreTeamOrganizeUi.transform.Find("IntValue").GetComponent<TMP_Text>());
+        statTextList.Add(m_uiTransform.Find("StrValue").GetComponent<TMP_Text>());
+        statTextList.Add(m_uiTransform.Find("AgiValue").GetComponent<TMP_Text>());
+        statTextList.Add(m_uiTransform.Find("VitValue").GetComponent<TMP_Text>());
+        statTextList.Add(m_uiTransform.Find("DexValue").GetComponent<TMP_Text>());
+        statTextList.Add(m_uiTransform.Find("IntValue").GetComponent<TMP_Text>());
 
-        healthTextList.Add(ExploreTeamOrganizeUi.transform.Find("StressValue").GetComponent<TMP_Text>());
-        healthTextList.Add(ExploreTeamOrganizeUi.transform.Find("HungryValue").GetComponent<TMP_Text>());
-        healthTextList.Add(ExploreTeamOrganizeUi.transform.Find("ThirstyValue").GetComponent<TMP_Text>());
+        healthTextList.Add(m_uiTransform.Find("StressValue").GetComponent<TMP_Text>());
+        healthTextList.Add(m_uiTransform.Find("HungryValue").GetComponent<TMP_Text>());
+        healthTextList.Add(m_uiTransform.Find("ThirstyValue").GetComponent<TMP_Text>());
 
-        perAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PerfectAbilityBackground/PerfectAbility1").GetComponent<TMP_Text>());
-        perAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PerfectAbilityBackground/PerfectAbility2").GetComponent<TMP_Text>());
-        perAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PerfectAbilityBackground/PerfectAbility3").GetComponent<TMP_Text>());
+        int m_maxAbilityAmount = Ability.MaxAbilityAmount;
+        int m_abilityKindAmount = Ability.abilityKindAmount;
 
-        posAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PositiveAbilityBackground/PositiveAbility1").GetComponent<TMP_Text>());
-        posAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PositiveAbilityBackground/PositiveAbility2").GetComponent<TMP_Text>());
-        posAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("PositiveAbilityBackground/PositiveAbility3").GetComponent<TMP_Text>());
+        for(int i = 0; i < m_abilityKindAmount; i++)
+        {
+            List<TMP_Text> m_targetAbilityText = new List<TMP_Text>();
+            for (int j = 0; j < m_maxAbilityAmount; j++)
+            {
+                switch(i)
+                {
+                    case 0:
 
-        negAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("NegativeAbilityBackground/NegativeAbility1").GetComponent<TMP_Text>());
-        negAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("NegativeAbilityBackground/NegativeAbility2").GetComponent<TMP_Text>());
-        negAbilityTextList.Add(ExploreTeamOrganizeUi.transform.Find("NegativeAbilityBackground/NegativeAbility3").GetComponent<TMP_Text>());
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+                //string m_targetText = "PerfectAbilityBackground/PerfectAbility" + (j + 1).ToString();
+            }
+        }
+        perAbilityTextList.Add(m_uiTransform.Find("").GetComponent<TMP_Text>());
+        perAbilityTextList.Add(m_uiTransform.Find("PerfectAbilityBackground/PerfectAbility2").GetComponent<TMP_Text>());
+        perAbilityTextList.Add(m_uiTransform.Find("PerfectAbilityBackground/PerfectAbility3").GetComponent<TMP_Text>());
+
+        posAbilityTextList.Add(m_uiTransform.Find("PositiveAbilityBackground/PositiveAbility1").GetComponent<TMP_Text>());
+        posAbilityTextList.Add(m_uiTransform.Find("PositiveAbilityBackground/PositiveAbility2").GetComponent<TMP_Text>());
+        posAbilityTextList.Add(m_uiTransform.Find("PositiveAbilityBackground/PositiveAbility3").GetComponent<TMP_Text>());
+
+        negAbilityTextList.Add(m_uiTransform.Find("NegativeAbilityBackground/NegativeAbility1").GetComponent<TMP_Text>());
+        negAbilityTextList.Add(m_uiTransform.Find("NegativeAbilityBackground/NegativeAbility2").GetComponent<TMP_Text>());
+        negAbilityTextList.Add(m_uiTransform.Find("NegativeAbilityBackground/NegativeAbility3").GetComponent<TMP_Text>());
 
         ExploreTeamOrganizeUi.SetActive(false);
         isDataSet = true;
@@ -81,23 +103,29 @@ public class MinerInfoManager : MonoBehaviour
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene) return;
         if (ExploreTeamOrganizeUi == null) return;
         if (ExploreTeamOrganizeUi.activeSelf == false) return;
-        Miner target = MinerManager.Instance.MinerList[index];
-        Stat targetStat = target.gameObject.GetComponent<Stat>();
-        Health targetHealth = target.gameObject.GetComponent<Health>();
-        Ability targetAbility = target.gameObject.GetComponent<Ability>();
 
-        minerNameText.text = target.Name;
-        float[] stat = targetStat.GetStat();
-        for(int i = 0; i < stat.Length; i++)
+        Miner m_target = MinerManager.Instance.MinerList[index];
+        Stat m_targetStat = m_target.gameObject.GetComponent<Stat>();
+        Health m_targetHealth = m_target.gameObject.GetComponent<Health>();
+        Ability m_targetAbility = m_target.gameObject.GetComponent<Ability>();
+
+        minerNameText.text = m_target.Name;
+
+        List<float> m_stat = m_targetStat.GetStat();
+        int m_statCount = m_stat.Count;
+        for (int i = 0; i < m_statCount; i++)
         {
-            statTextList[i].text = stat[i].ToString();
+            statTextList[i].text = m_stat[i].ToString();
         }
-        float[] health = targetHealth.GetHealth();
-        for(int i = 0; i < healthTextList.Count; i++)
+
+        List<float> m_health = m_targetHealth.GetHealth();
+        int m_helathCount = healthTextList.Count;
+        for (int i = 0; i < m_helathCount; i++)
         {
-            healthTextList[i].text = health[i].ToString();
+            healthTextList[i].text = m_health[i].ToString();
         }
-        AbilityStruct abilityStruct = targetAbility.GetAbility();
+
+        AbilityStruct abilityStruct = m_targetAbility.GetAbility();
         for(int i = 0; i < 3; i++)
         {
             List<TMP_Text> targetText = new List<TMP_Text>();

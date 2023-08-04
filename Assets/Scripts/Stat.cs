@@ -30,9 +30,9 @@ public class Stat : MonoBehaviour
         dex = Random.Range(0, 5);
         @int = Random.Range(0, 5);
     }
-    public float[] GetStat()
+    public List<float> GetStat()
     {
-        return new float[] { str, agi, vit, dex, @int };
+        return new List<float> { str, agi, vit, dex, @int };
     }
     // Start is called before the first frame update
     void Start()

@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class Ability : MonoBehaviour
 {
-    enum probability
+    private enum probability
     {
         NegativeProbability = 2,
         PositiveProbability = 3,
         PerfectProbability = 5,
     }
-    [Header("Miner Abillity")]
-    [Header("광부의 재능, 광부마다 재능이 달라 행동에 보정이 붙는다.")]
-    [SerializeField]
-    AbilityStruct abilityStruct = new AbilityStruct();
 
-    int PerAbilNum = System.Enum.GetValues(typeof(PerAbilEnum)).Length;
-    int PosAbilNum = System.Enum.GetValues(typeof(PosAbilEnum)).Length;
-    int NegAbilNum = System.Enum.GetValues(typeof(NegAbilEnum)).Length;
+    private AbilityStruct abilityStruct = new AbilityStruct();
+
+    private int PerAbilNum = System.Enum.GetValues(typeof(PerAbilEnum)).Length;
+    private int PosAbilNum = System.Enum.GetValues(typeof(PosAbilEnum)).Length;
+    private int NegAbilNum = System.Enum.GetValues(typeof(NegAbilEnum)).Length;
+
+    public const int MaxAbilityAmount = 3;
+    public const int abilityKindAmount = 3;
 
     /// <summary>
     /// 6면체 주사위를 굴려 1이면 부정적인 재능, 2~3이라면 재능 얻기에 실패, 4~5라면 일반적인 재능, 6이라면 완벽한 재능을 얻게하는 함수
@@ -27,51 +28,40 @@ public class Ability : MonoBehaviour
         abilityStruct.MinerNegativeAbilityList = new List<NegAbilEnum>();
         abilityStruct.MinerPerfectAbilityList = new List<PerAbilEnum>();
         abilityStruct.MinerPositiveAbilityList = new List<PosAbilEnum>();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < MaxAbilityAmount; i++)
         {
-            int dice = Random.Range(1, 7);
-            if (dice < (int)probability.NegativeProbability)
+            int m_dice = Random.Range(1, 7);
+            if (m_dice < (int)probability.NegativeProbability)
             {
-                dice = Random.Range(0, NegAbilNum);
-                while (abilityStruct.MinerNegativeAbilityList.IndexOf((NegAbilEnum)dice) != -1)
+                m_dice = Random.Range(0, NegAbilNum);
+                while (abilityStruct.MinerNegativeAbilityList.IndexOf((NegAbilEnum)m_dice) != -1)
                 {
-                    dice = Random.Range(0, NegAbilNum);
+                    m_dice = Random.Range(0, NegAbilNum);
                 }
-                abilityStruct.MinerNegativeAbilityList.Add((NegAbilEnum)dice);
+                abilityStruct.MinerNegativeAbilityList.Add((NegAbilEnum)m_dice);
             }
-            else if (dice > (int)probability.PerfectProbability)
+            else if (m_dice > (int)probability.PerfectProbability)
             {
-                dice = Random.Range(0, PerAbilNum);
-                while (abilityStruct.MinerPerfectAbilityList.IndexOf((PerAbilEnum)dice) != -1)
+                m_dice = Random.Range(0, PerAbilNum);
+                while (abilityStruct.MinerPerfectAbilityList.IndexOf((PerAbilEnum)m_dice) != -1)
                 {
-                    dice = Random.Range(0, PerAbilNum);
+                    m_dice = Random.Range(0, PerAbilNum);
                 }
-                abilityStruct.MinerPerfectAbilityList.Add((PerAbilEnum)dice);
+                abilityStruct.MinerPerfectAbilityList.Add((PerAbilEnum)m_dice);
             }
-            else if (dice > (int)probability.PositiveProbability)
+            else if (m_dice > (int)probability.PositiveProbability)
             {
-                dice = Random.Range(0, PosAbilNum);
-                while (abilityStruct.MinerPositiveAbilityList.IndexOf((PosAbilEnum)dice) != -1)
+                m_dice = Random.Range(0, PosAbilNum);
+                while (abilityStruct.MinerPositiveAbilityList.IndexOf((PosAbilEnum)m_dice) != -1)
                 {
-                    dice = Random.Range(0, PosAbilNum);
+                    m_dice = Random.Range(0, PosAbilNum);
                 }
-                abilityStruct.MinerPositiveAbilityList.Add((PosAbilEnum)dice);
+                abilityStruct.MinerPositiveAbilityList.Add((PosAbilEnum)m_dice);
             }
         }
     }
     public AbilityStruct GetAbility()
     {
         return abilityStruct;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -4,26 +4,22 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    // 굳이 Range를 쓸 이유가 없어서 dynamic으로 따로 컴포넌트를 작성할 것이 아니라면 Range를 안쓰는게 좋을듯
-    [Header("Miner Health")]
-    [SerializeField]
-    [Tooltip("Stress Value"), Range(0,100)]
-    float stress;
-    [SerializeField]
-    [Tooltip("Hungry Value"), Range(0, 100)]
-    float hungry;
-    [SerializeField]
-    [Tooltip("Thirsty Value"), Range(0, 100)]
-    float thirsty;
-    [SerializeField]
-    [Tooltip("Stress Over Value"), Range(0, 3)]
-    int stressOver;
-    [SerializeField]
-    [Tooltip("Hungry Over Value"), Range(0, 3)]
-    int hungryOver;
-    [SerializeField]
-    [Tooltip("Thirsty Over Value"), Range(0, 3)]
-    int thirstyOver;
+    // 스트레스, 허기, 갈증의 최대 값
+    private float maxStress;
+    private float maxHungry;
+    private float maxThirsty;
+
+    // 스트레스, 허기, 갈증의 현재 값
+    private float stress;
+    private float hungry;
+    private float thirsty;
+
+    // 각각 한계치 이상이 된 수
+    private int stressOver;
+    private int hungryOver;
+    private int thirstyOver;
+
+    private const int overCount = 3;
 
     /// <summary>
     /// 게임속 하루가 지났을 경우 광부가 겪는 현상을 표현하는 함수
@@ -70,9 +66,13 @@ public class Health : MonoBehaviour
         hungryOver = 0;
         thirstyOver = 0;
     }
-    public float[] GetHealth()
+    public List<float> GetMaxHealth()
     {
-        return new float[] {stress, hungry, thirsty};
+        return new List<float> {maxStress, maxHungry, maxThirsty};
+    }
+    public List<float> GetHealth()
+    {
+        return new List<float> {stress, hungry, thirsty};
     }
     // Start is called before the first frame update
     void Start()

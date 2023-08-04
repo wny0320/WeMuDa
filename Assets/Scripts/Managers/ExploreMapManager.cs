@@ -48,6 +48,7 @@ public class ExploreMapManager : MonoBehaviour
             return instance;
         }
     }
+    // 맵 생성 관련 데이터들
     private Vector2[,] loca;
     private bool[,] locaFlag;
 
@@ -85,9 +86,14 @@ public class ExploreMapManager : MonoBehaviour
     [SerializeField, Tooltip("맵의 정보를 띄우는데 걸리는 시간"), Range(0, 1)]
     private float roomMaxTime = 1f;
 
+    // 씬 전환시 필요한 데이터들
     private Coroutine loop = null;
     private bool IsDateSet = false;
 
+    // 탐험을 나갈 수 있는 광부의 상수
+    public const int CanExploreMinerCount = 5;
+    // 탐험을 나간 광부들의 리스트
+    public List<GameObject> ExploringMinerList = new List<GameObject>();  // 아직 데이터를 추가하지 않았음
     private void ExploreSetting()
     {
         // Scene이 로드 된 때가 아닌경우
