@@ -8,7 +8,7 @@ public class Unit : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Stat stat;
     private Health health;
-    private Ability abillity;
+    private Ability ability;
     private BattleStat battleStat;
     private ExploreStat exploreStat;
     private bool[] ownFlag;
@@ -17,28 +17,21 @@ public class Unit : MonoBehaviour
     public void Spawn(string name, Sprite sprite)
     {
         Name = name;
+        if(spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = sprite;
 
+        if(stat == null) stat = GetComponent<Stat>();
         stat.RandomStat();
-        abillity.RandomAbillity();
+        if(ability == null) ability = GetComponent<Ability>();
+        ability.RandomAbillity();
+        if(health == null) health = GetComponent<Health>();
         health.HealthReset();
+        if(battleStat == null) battleStat = GetComponent<BattleStat>();
         battleStat.BattleStatSet(stat);
     }
 
     public void CallOneDayAfter()
     {
         health.OneDayAfter();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

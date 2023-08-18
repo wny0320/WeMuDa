@@ -68,32 +68,27 @@ public class MinerInfoManager : MonoBehaviour
         for(int i = 0; i < m_abilityKindAmount; i++)
         {
             List<TMP_Text> m_targetAbilityText = new List<TMP_Text>();
+            string m_searchName = "";
+            switch (i)
+            {
+                case 0:
+                    m_targetAbilityText = perAbilityTextList;
+                    m_searchName = "PerfectAbilityBackground/PerfectAbility";
+                    break;
+                case 1:
+                    m_targetAbilityText = posAbilityTextList;
+                    m_searchName = "PositiveAbilityBackground/PositiveAbility";
+                    break;
+                case 2:
+                    m_targetAbilityText = negAbilityTextList;
+                    m_searchName = "NegativeAbilityBackground/NegativeAbility";
+                    break;
+            }
             for (int j = 0; j < m_maxAbilityAmount; j++)
             {
-                switch(i)
-                {
-                    case 0:
-
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                }
-                //string m_targetText = "PerfectAbilityBackground/PerfectAbility" + (j + 1).ToString();
+                m_targetAbilityText.Add(m_uiTransform.Find(m_searchName + (j + 1).ToString()).GetComponent<TMP_Text>());
             }
         }
-        perAbilityTextList.Add(m_uiTransform.Find("").GetComponent<TMP_Text>());
-        perAbilityTextList.Add(m_uiTransform.Find("PerfectAbilityBackground/PerfectAbility2").GetComponent<TMP_Text>());
-        perAbilityTextList.Add(m_uiTransform.Find("PerfectAbilityBackground/PerfectAbility3").GetComponent<TMP_Text>());
-
-        posAbilityTextList.Add(m_uiTransform.Find("PositiveAbilityBackground/PositiveAbility1").GetComponent<TMP_Text>());
-        posAbilityTextList.Add(m_uiTransform.Find("PositiveAbilityBackground/PositiveAbility2").GetComponent<TMP_Text>());
-        posAbilityTextList.Add(m_uiTransform.Find("PositiveAbilityBackground/PositiveAbility3").GetComponent<TMP_Text>());
-
-        negAbilityTextList.Add(m_uiTransform.Find("NegativeAbilityBackground/NegativeAbility1").GetComponent<TMP_Text>());
-        negAbilityTextList.Add(m_uiTransform.Find("NegativeAbilityBackground/NegativeAbility2").GetComponent<TMP_Text>());
-        negAbilityTextList.Add(m_uiTransform.Find("NegativeAbilityBackground/NegativeAbility3").GetComponent<TMP_Text>());
 
         ExploreTeamOrganizeUi.SetActive(false);
         isDataSet = true;

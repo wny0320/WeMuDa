@@ -78,15 +78,16 @@ public class ExploreUiManager : MonoBehaviour
             oxygenInfoUi.SetActive(false);
         });
     }
-    private void exploreUiSet()
+    private IEnumerator exploreUiSet()
     {
         // 현재 Scene이 ExploreScene이 아닐경우 함수 종료와 함께 dataSet을 false
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene)
         {
             isDataSet = false;
-            return;
+            yield return null;
         }
-        if (isDataSet == true) return;
+        if (isDataSet == true) yield return null;
+        yield return new WaitForEndOfFrame();
         findData();
         buttonSet();
 
@@ -169,6 +170,10 @@ public class ExploreUiManager : MonoBehaviour
         {
             m_exploringMinerList[i].SetActive(false);
         }
+    }
+    private void Start()
+    {
+        StartCoroutine(exploreUiSet());
     }
     void Update()
     {
