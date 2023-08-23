@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class Miner : Unit
 {
-    // Start is called before the first frame update
-    void Start()
+    private bool IsExploreAttend = false;
+    public void ExploreAttendEdit(bool _tf)
     {
-        
+        IsExploreAttend = _tf;
     }
-
-    // Update is called once per frame
-    void Update()
+    public bool ReturnExploreAttend()
     {
-        
+        return IsExploreAttend;
     }
 }

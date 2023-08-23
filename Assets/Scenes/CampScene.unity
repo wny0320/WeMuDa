@@ -5670,7 +5670,7 @@ GameObject:
   - component: {fileID: 491319765}
   - component: {fileID: 491319767}
   m_Layer: 5
-  m_Name: Image
+  m_Name: MinerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -47,6 +47,9 @@ public class ExploreUiManager : MonoBehaviour
     // minerStatusInf 내의 oxygenGauge
     private List<Image> oxygenGauge;
 
+    // 코루틴이 작동하고 있는지 판별
+    private Coroutine exploreCo = null;
+
     private void findData()
     {
         // 캔버스 찾기
@@ -84,14 +87,20 @@ public class ExploreUiManager : MonoBehaviour
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene)
         {
             isDataSet = false;
-            yield return null;
+            exploreCo = null;
+            yield break;
         }
-        if (isDataSet == true) yield return null;
-        yield return new WaitForEndOfFrame();
+        if (isDataSet == true)
+        {
+            exploreCo = null;
+            yield break;
+        }
+        yield return new WaitForFixedUpdate();
         findData();
         buttonSet();
 
         isDataSet = true;
+        exploreCo = null;
     }
 
     /// <summary>
@@ -173,10 +182,11 @@ public class ExploreUiManager : MonoBehaviour
     }
     private void Start()
     {
-        StartCoroutine(exploreUiSet());
+        
     }
     void Update()
     {
         minerStatusInfoSync();
+        if(exploreCo == null) exploreCo = StartCoroutine(exploreUiSet());
     }
 }

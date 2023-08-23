@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine.EventSystems;
 using Newtonsoft.Json;
 using System.IO;
+using System.Linq;
 
 public class ExploreMapManager : MonoBehaviour
 {
@@ -337,6 +338,7 @@ public class ExploreMapManager : MonoBehaviour
     }
     public void StartExplore(List<GameObject> _minerList)
     {
+        ExploringMinerList = _minerList.ToList();
         // 해당하는 광부들의 탐험을 시작함
         // 해당하는 광부 데이터를 받기 위해서 인수를 넣은듯?
     }

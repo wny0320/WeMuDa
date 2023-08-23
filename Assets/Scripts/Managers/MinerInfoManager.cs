@@ -3,9 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using System.Linq;
+using System;
 
 public class MinerInfoManager : MonoBehaviour
 {
+    private enum statName
+    {
+        Str,
+        Agi,
+        Vit,
+        Dex,
+        Int,
+    }
     // 싱글톤
     private static MinerInfoManager instance;
     public static MinerInfoManager Instance
@@ -28,16 +39,18 @@ public class MinerInfoManager : MonoBehaviour
     public GameObject ExploreTeamOrganizeUi;
     private bool isDataSet = false;
 
-    TMP_Text minerNameText;
-    List<TMP_Text> statTextList = new List<TMP_Text>();
-    List<TMP_Text> healthTextList = new List<TMP_Text>();
-    List<TMP_Text> perAbilityTextList = new List<TMP_Text>();
-    List<TMP_Text> posAbilityTextList = new List<TMP_Text>();
-    List<TMP_Text> negAbilityTextList = new List<TMP_Text>();
+    private TMP_Text minerNameText;
+    private List<TMP_Text> statTextList = new List<TMP_Text>();
+    private List<TMP_Text> healthTextList = new List<TMP_Text>();
+    private List<TMP_Text> perAbilityTextList = new List<TMP_Text>();
+    private List<TMP_Text> posAbilityTextList = new List<TMP_Text>();
+    private List<TMP_Text> negAbilityTextList = new List<TMP_Text>();
 
     public List<Miner> ExploreMinerList = new List<Miner>();
+    public Miner TargetMiner = null;
     private int index = 0;
-    
+
+    private Image minerImage;
     private void MinerInfoSetting()
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.CampScene)
@@ -52,11 +65,19 @@ public class MinerInfoManager : MonoBehaviour
         Transform m_uiTransform = ExploreTeamOrganizeUi.transform;
         minerNameText = m_uiTransform.Find("MinerName").GetComponent<TMP_Text>();
 
-        statTextList.Add(m_uiTransform.Find("StrValue").GetComponent<TMP_Text>());
-        statTextList.Add(m_uiTransform.Find("AgiValue").GetComponent<TMP_Text>());
-        statTextList.Add(m_uiTransform.Find("VitValue").GetComponent<TMP_Text>());
-        statTextList.Add(m_uiTransform.Find("DexValue").GetComponent<TMP_Text>());
-        statTextList.Add(m_uiTransform.Find("IntValue").GetComponent<TMP_Text>());
+        // 이미지 찾기
+        
+        // Enum으로 foreach 돌리기
+        Array m_array = Enum.GetValues(typeof(statName));
+        foreach (statName i in m_array)
+        {
+            statTextList.Add(m_uiTransform.Find(i.ToString() + "Value").GetComponent<TMP_Text>());
+        }
+        //statTextList.Add(m_uiTransform.Find("StrValue").GetComponent<TMP_Text>());
+        //statTextList.Add(m_uiTransform.Find("AgiValue").GetComponent<TMP_Text>());
+        //statTextList.Add(m_uiTransform.Find("VitValue").GetComponent<TMP_Text>());
+        //statTextList.Add(m_uiTransform.Find("DexValue").GetComponent<TMP_Text>());
+        //statTextList.Add(m_uiTransform.Find("IntValue").GetComponent<TMP_Text>());
 
         healthTextList.Add(m_uiTransform.Find("StressValue").GetComponent<TMP_Text>());
         healthTextList.Add(m_uiTransform.Find("HungryValue").GetComponent<TMP_Text>());
@@ -100,6 +121,7 @@ public class MinerInfoManager : MonoBehaviour
         if (ExploreTeamOrganizeUi.activeSelf == false) return;
 
         Miner m_target = MinerManager.Instance.MinerList[index];
+        TargetMiner = m_target;
         Stat m_targetStat = m_target.gameObject.GetComponent<Stat>();
         Health m_targetHealth = m_target.gameObject.GetComponent<Health>();
         Ability m_targetAbility = m_target.gameObject.GetComponent<Ability>();

@@ -416,6 +416,7 @@ GameObject:
   - component: {fileID: 9153690698612192036}
   - component: {fileID: 9153690698612192035}
   - component: {fileID: 9153690698612192034}
+  - component: {fileID: 9153690698612192055}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -797,11 +798,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92fde6b601877544db246ebc8ea4a56e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 0}
   roomPrefab: {fileID: 2979586997476995372, guid: a1923a0cee2cb1146b3865c000b2c3ee, type: 3}
-  mapCanvasObject: {fileID: 0}
   cursorPrefab: {fileID: 3890044927209307736, guid: 731c11426dbdcf546bf0fe86262ed28b, type: 3}
-  cursor: {fileID: 0}
   maxMapSize: 20
   RoomInformationList:
   - {fileID: 11400000, guid: 43586dbb56b6a79428aa732c674b3b40, type: 2}
@@ -812,12 +810,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac99844438699554baa0acd52b956965, type: 2}
   - {fileID: 11400000, guid: 47578280a5602344d82885adf07365a4, type: 2}
   - {fileID: 11400000, guid: c4dcf814102ab3e4a8d612bea24ed5a8, type: 2}
-  roomInfoImage: {fileID: 0}
-  roomName: {fileID: 0}
-  roomExplain: {fileID: 0}
-  roomInfoObject: {fileID: 0}
   exploreSprite: {fileID: 21300000, guid: 8be6c368ae48b3841a7482d654109b8b, type: 3}
   roomMaxTime: 1
+  ExploringMinerList: []
 --- !u!114 &9153690698612192049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,5 +891,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08daabfcce32b78448d7729a564cf6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9153690698612192055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3218897464440747459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d33c7b910956a7b4fb2155d105a7312a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
