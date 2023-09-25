@@ -60,7 +60,8 @@ public class MinerInfoManager : MonoBehaviour
         }
         if (isDataSet == true) return;
         ExploreTeamOrganizeUi = GameObject.Find("ExploreTeamOrganizeBackground");
-
+        // 텍스트들 초기화
+        List<TMP_Text> healthTextList = new List<TMP_Text>();
         // 텍스트들 찾기
         Transform m_uiTransform = ExploreTeamOrganizeUi.transform;
         minerNameText = m_uiTransform.Find("MinerName").GetComponent<TMP_Text>();
@@ -73,11 +74,6 @@ public class MinerInfoManager : MonoBehaviour
         {
             statTextList.Add(m_uiTransform.Find(i.ToString() + "Value").GetComponent<TMP_Text>());
         }
-        //statTextList.Add(m_uiTransform.Find("StrValue").GetComponent<TMP_Text>());
-        //statTextList.Add(m_uiTransform.Find("AgiValue").GetComponent<TMP_Text>());
-        //statTextList.Add(m_uiTransform.Find("VitValue").GetComponent<TMP_Text>());
-        //statTextList.Add(m_uiTransform.Find("DexValue").GetComponent<TMP_Text>());
-        //statTextList.Add(m_uiTransform.Find("IntValue").GetComponent<TMP_Text>());
 
         healthTextList.Add(m_uiTransform.Find("StressValue").GetComponent<TMP_Text>());
         healthTextList.Add(m_uiTransform.Find("HungryValue").GetComponent<TMP_Text>());

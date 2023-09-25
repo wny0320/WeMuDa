@@ -68,6 +68,9 @@ public class MinerManager : MonoBehaviour
         InstantiateMiner();
         InstantiateMiner();
         InstantiateMiner();
+        InstantiateMiner();
+        InstantiateMiner();
+        InstantiateMiner();
     }
 
     public void OneDayAfterMng()

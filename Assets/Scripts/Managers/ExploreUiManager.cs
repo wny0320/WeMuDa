@@ -19,9 +19,10 @@ public class ExploreUiManager : MonoBehaviour
         }
     }
     // Ui의 기본적인 데이터들
-    private Canvas oxygenCanvas;
-    private GameObject oxygenInfoUi;
+    private Canvas minerInfoCanvas;
+    private GameObject minerInfoUI;
     private Button infoExitBt;
+    private Button infoBt;
 
     // Ui 데이터를 찾았는지 알려주는 bool
     private bool isDataSet = false;
@@ -53,9 +54,9 @@ public class ExploreUiManager : MonoBehaviour
     private void findData()
     {
         // 캔버스 찾기
-        oxygenCanvas = GameObject.Find("OxygenCanvas").GetComponent<Canvas>();
+        minerInfoCanvas = GameObject.Find("MinerInfoCanvas").GetComponent<Canvas>();
         // Ui 오브젝트 찾기
-        oxygenInfoUi = oxygenCanvas.transform.Find("OxygenInfoUI").gameObject;
+        minerInfoUI = minerInfoCanvas.transform.Find("MinerInfoUI").gameObject;
 
         // Prefab화 되어 있는 오브젝트 찾기
         minerStatusInfo = new List<GameObject>();
@@ -64,21 +65,28 @@ public class ExploreUiManager : MonoBehaviour
         for (int i = 0; i < m_count; i++)
         {
             string targetName = "MinerStatusInfo" + i.ToString();
-            GameObject target = oxygenInfoUi.transform.Find("LayoutGroup/" + targetName).gameObject;
+            GameObject target = minerInfoUI.transform.Find("LayoutGroup/" + targetName).gameObject;
             minerStatusInfo.Add(target);
         }
 
-        infoExitBt = oxygenInfoUi.transform.Find("InfoExitIcon").GetComponent<Button>();
+        infoExitBt = minerInfoUI.transform.Find("InfoExitIcon").GetComponent<Button>();
+        infoBt = GameObject.Find("ExploreUICanvas/InfoButton").GetComponent<Button>();
+        minerInfoUI.SetActive(false);
     }
 
     /// <summary>
-    /// 버튼에 기능을 추가, 기능은 ui 비활성화
+    /// 버튼에 기능을 추가, 기능은 ui 비활성화, 닫기 아이콘에 사용할 스크립트
     /// </summary>
     private void buttonSet()
     {
         infoExitBt.onClick.AddListener(() =>
         {
-            oxygenInfoUi.SetActive(false);
+            minerInfoUI.SetActive(false);
+        });
+        infoBt.onClick.AddListener(() =>
+        {
+            if (minerInfoUI.activeSelf == true) minerInfoUI.SetActive(false);
+            else minerInfoUI.SetActive(true);
         });
     }
     private IEnumerator exploreUiSet()
@@ -102,21 +110,25 @@ public class ExploreUiManager : MonoBehaviour
         isDataSet = true;
         exploreCo = null;
     }
+    public void ExploreMinerInfoUiOnOff(bool _tf)
+    {
+        minerInfoUI.SetActive(_tf);
+    }
 
     /// <summary>
     /// 광부 정보창을 동기화 시켜주는 함수
     /// </summary>
-    private void minerStatusInfoSync()
+    private void minerStatusInfoSync() // 아직 광부데이터를 넘겨주지 않았음
     {
         if (GameSceneManager.Instance.NowSceneName != GameSceneManager.SceneName.ExploreScene) return;
         if (isDataSet == false) return;
-        if (oxygenInfoUi.activeSelf == false) return;
+        if (minerInfoUI.activeSelf == false) return;
 
         // 리스트 얕은 복사, 싱글톤 참조를 덜 하기 위함
-        List<GameObject> m_exploringMinerList = ExploreMapManager.Instance.ExploringMinerList;
+        List<Miner> m_exploringMinerList = ExploreMapManager.Instance.ExploringMinerList;
 
         // 현재 탐험하는 광부의 수
-        int activatedNum = m_exploringMinerList.Count;
+        int activatedNum = m_exploringMinerList == null ? 0 : m_exploringMinerList.Count;
 
         if (isSyncWorked == false)
         {
@@ -159,11 +171,11 @@ public class ExploreUiManager : MonoBehaviour
         for(int i = 0; i < activatedNum; i++)
         {
             // 광부 sprite로 변경
-            minerStatusImage[i].sprite = m_exploringMinerList[i].GetComponent<SpriteRenderer>().sprite;
+            minerStatusImage[i].sprite = m_exploringMinerList[i].gameObject.GetComponent<SpriteRenderer>().sprite;
 
             // Sync에 필요한 데이터 받기
-            BattleStat m_battleStat = m_exploringMinerList[i].GetComponent<BattleStat>();
-            Health m_health = m_exploringMinerList[i].GetComponent<Health>();
+            BattleStat m_battleStat = m_exploringMinerList[i].gameObject.GetComponent<BattleStat>();
+            Health m_health = m_exploringMinerList[i].gameObject.GetComponent<Health>();
 
             // Sync
             List<float> m_battleStatData = m_battleStat.ReturnBattleStats();
@@ -177,14 +189,10 @@ public class ExploreUiManager : MonoBehaviour
         }
         for(int i = activatedNum; i < maxUiNum; i++)
         {
-            m_exploringMinerList[i].SetActive(false);
+            minerStatusInfo[i].gameObject.SetActive(false);
         }
     }
-    private void Start()
-    {
-        
-    }
-    void Update()
+    private void Update()
     {
         minerStatusInfoSync();
         if(exploreCo == null) exploreCo = StartCoroutine(exploreUiSet());

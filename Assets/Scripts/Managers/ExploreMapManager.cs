@@ -94,7 +94,7 @@ public class ExploreMapManager : MonoBehaviour
     // 탐험을 나갈 수 있는 광부의 상수
     public const int CanExploreMinerCount = 5;
     // 탐험을 나간 광부들의 리스트
-    public List<GameObject> ExploringMinerList = new List<GameObject>();  // 아직 데이터를 추가하지 않았음
+    public List<Miner> ExploringMinerList = new List<Miner>();  // 아직 데이터를 추가하지 않았음
     private void ExploreSetting()
     {
         // Scene이 로드 된 때가 아닌경우
@@ -336,11 +336,10 @@ public class ExploreMapManager : MonoBehaviour
     {
         mapCanvasObject.SetActive(_tf);
     }
-    public void StartExplore(List<GameObject> _minerList)
+    public void StartExplore()
     {
-        ExploringMinerList = _minerList.ToList();
+        ExploringMinerList = MinerInfoManager.Instance.ExploreMinerList.ToList();
         // 해당하는 광부들의 탐험을 시작함
-        // 해당하는 광부 데이터를 받기 위해서 인수를 넣은듯?
     }
     public void BattleModeToExploreMode()
     {
